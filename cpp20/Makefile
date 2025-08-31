@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -Wall -std=c++23
+CXXFLAGS = -fmodules -O2 -static -std=c++23 -Wall
 
 # Default target - shows usage
 .PHONY: help
@@ -12,6 +12,10 @@ help:
 %: %.cpp
 	mkdir -p build
 	$(CXX) $(CXXFLAGS) $< -o build/$@
+
+# Run binary
+run:
+	./build/%
 
 # Clean up executables (optional)
 .PHONY: clean
