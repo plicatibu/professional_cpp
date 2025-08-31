@@ -10,7 +10,8 @@ help:
 
 # Pattern rule: compile any .cpp file to executable
 %: %.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+	mkdir -p build
+	$(CXX) $(CXXFLAGS) $< -o build/$@
 
 # Clean up executables (optional)
 .PHONY: clean
