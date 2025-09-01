@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstddef> // to_integer
-#include <format>
+#include <format>  // include for g++
 #include <limits>
+#include <cmath>
 
 using std::cout;
 using std::endl;
@@ -58,6 +59,87 @@ int main(int argc, char **argv) {
     cout << std::format("int i4 = {} = {}\n", f2, i4);
     cout << "large_float: " << large_float << endl;
     cout << std::format("int i5 = {} = {}\n", large_float, i5);
+
+    // infinty / NaN page 66
+    // NOTE: The integer division 0/0 is un undefined behaviour in C++, so std::isnam returns false.
+    int i6 = 0/0;
+    cout << std::format("i6 = 0/0 is a NaN ? {}\n", std::isnan(i6));
+
+    // NOTE: The float / double 0/0 is a NaN so std::isnan returns NaN.
+    float f3 = 0.0/0;
+    cout << std::format("f3 = 0/0 is a NaN ? {}\n", std::isnan(f3));
+
+    cout << "float infinity = " << std::numeric_limits<float>::infinity() << endl;
+    cout << "double infinity = " << std::numeric_limits<double>::infinity() << endl;
+    cout << std::format("float infinity = {}\n", std::numeric_limits<float>::infinity());
+
+    int rem = 10%3;
+    cout << "rem = 10 %% 3 = " << rem << endl;
+    // NOTE: It makes no sense get remaining of float / double values in a division and it's an error in C++
+    //float frem = 10.0f % 3.0f;
+    //cout << "rem = 10 % 3.0 " << frem << endl;
+
+    int i7 = 8;
+    int i8 {1};
+    cout << "i7 = " << i7 << " i8 = " << i8 << endl;
+    i7 ^= i8;
+    cout << "i7 ^ i8 = " << i7 << endl; 
+
+    // enumeration page 69
+    enum class PieceType { King, Queen, Rook, Pawn };
+    // if PieceType.Queen == 2 // it is an invalid code. You cannot compare enums.
+    enum class State { Unknown, Started, Finished };
+    enum class Error { None, BadInput, DiskFull, Unknown, };
+
+    //old enum style. It has a problem of names clashing. The example below does not compile.
+    //ALWAYS use stronged typed `enum class`.
+    /* 
+     * bool ok { false };
+     * enum status { ok, nok }
+     * cout << "ok ? " << ok << endl;
+     * cout << "status::ok? " << status::ok << endl;
+     */
+
+    // switch page 74
+    enum class Mode { Default, Custom, Standard };
+    Mode mode = Mode::Custom;
+    switch (mode) {
+        case Mode::Custom:
+            cout << "custom...\n";
+            [[fallthrough]]; 
+        case Mode::Standard:
+            cout << "standard...\n";
+            break;
+        case Mode::Default:
+            cout << "default...\n";
+            break;
+    };
+
+
+    switch (mode) {
+        using enum Mode;
+        case Custom:
+            cout << "2 - custom...\n";
+            [[fallthrough]]; 
+        case Standard:
+            cout << "2 - standard...\n";
+            break;
+        case Default:
+            cout << "2 - default...\n";
+            break;
+    };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
