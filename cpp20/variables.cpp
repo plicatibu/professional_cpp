@@ -3,9 +3,29 @@
 #include <format>  // include for g++
 #include <limits>
 #include <cmath>
+#include <compare>
 
 using std::cout;
 using std::endl;
+
+
+// function name __func__ page 80
+int addNumbers(int number1, int number2) {
+    cout << std::format("Entering function {}", __func__) << endl;
+    return number1 + number2;
+}
+
+[[nodiscard]] int myFunc() {
+    return 42;
+}
+
+[[nodiscard ("Reason why you should not discard the return value")]] int myFunc2() {
+    return 42;
+}
+
+
+
+
 int main(int argc, char **argv) {
 
     int unitializedInt;
@@ -22,7 +42,7 @@ int main(int argc, char **argv) {
     cout << "long double: " << ld << endl;
 
     std::byte b {72};
-    cout << "using just cout -> std::byte b{72} = " << std::to_integer<unsigned int>(b) << "\n"; 
+    cout << "using just cout -> std::byte b{72} = " << std::to_integer<unsigned int>(b) << "\n";
     //cout << std::format("using std::format -> std::byte b{72} = {}", std::to_integer<unsigned int>(b)) << '\n';
     cout << std::format("using std::format -> std::byte b {{72}} = {}", std::to_integer<unsigned int>(b)) << '\n';
 
@@ -83,7 +103,7 @@ int main(int argc, char **argv) {
     int i8 {1};
     cout << "i7 = " << i7 << " i8 = " << i8 << endl;
     i7 ^= i8;
-    cout << "i7 ^ i8 = " << i7 << endl; 
+    cout << "i7 ^ i8 = " << i7 << endl;
 
     // enumeration page 69
     enum class PieceType { King, Queen, Rook, Pawn };
@@ -93,7 +113,7 @@ int main(int argc, char **argv) {
 
     //old enum style. It has a problem of names clashing. The example below does not compile.
     //ALWAYS use stronged typed `enum class`.
-    /* 
+    /*
      * bool ok { false };
      * enum status { ok, nok }
      * cout << "ok ? " << ok << endl;
@@ -106,7 +126,7 @@ int main(int argc, char **argv) {
     switch (mode) {
         case Mode::Custom:
             cout << "custom...\n";
-            [[fallthrough]]; 
+            [[fallthrough]];
         case Mode::Standard:
             cout << "standard...\n";
             break;
@@ -120,7 +140,7 @@ int main(int argc, char **argv) {
         using enum Mode;
         case Custom:
             cout << "2 - custom...\n";
-            [[fallthrough]]; 
+            [[fallthrough]];
         case Standard:
             cout << "2 - standard...\n";
             break;
@@ -129,15 +149,42 @@ int main(int argc, char **argv) {
             break;
     };
 
+    // three-way comparison page 77
+    std::strong_ordering result { 4 <=> 5 };
+    if (std::strong_ordering::less == result) {
+        cout << "4 is less than 5\n";
+    } else if (std::strong_ordering::equal == result) {
+        cout << "4 is equal 5\n";
+    } else if (std::strong_ordering::greater == result) {
+        cout << "4 is greater than 5\n";
+    }
 
+    /* We cannot use strong_ordering and parcial_ordering cannot be used on `switch` neither with `using enum`
+    switch(result) {
+        case std::strong_ordering::less:
+            cout << "4 is less than 5\n";
+        case std::strong_ordering::equal:
+            cout << "4 is equal 5\n";
+        case std::strong_ordering::greater:
+            cout << "4 is greater than 5\n";
+    }
+    */
 
+    result = 28 <=> 7;
+    if (std::is_lt(result)) { cout << "28 is greater than 7\n"; }
+    if (std::is_eq(result)) { cout << "28 is equal 7\n"; }
+    if (std::is_gt(result)) { cout << "28 is greater than 7\n"; }
 
+    // function name __func__ page 80
+    // The function below will print "Entering function addNumbers".
+    addNumbers(14, 14);
 
+    // the compiler will issue an warning due the [[nodiscard]] attribute added to it.
+    myFunc();
+    myFunc2();
 
-
-
-
-
+  // my unindented comment.
+  if true { cout << "true\n" ; }
 
 
 
