@@ -16,10 +16,18 @@ void func(const int arr[], const int len) {
 
 template <size_t N> void func2(const std::array<int, N> arr) {
     int len = arr.size();
+    cout << "========================================================" << endl;
     cout << "size of arr: " << len << endl;
+    cout << "conventional for loop\n";
     for (int i = 0; i < len; i++) {
         cout << "arr[" << i << "] = " << arr[i] << endl;
     } // for
+
+    cout << "ranged based for loop\n";
+    for (int i : arr) {
+        cout << "element " << i << endl;
+    }
+    cout << "========================================================" << endl;
 }
 std::optional<int> getData(bool giveIt) {
     if (giveIt) {
@@ -78,8 +86,24 @@ int main() {
     if (data2) {
         cout << "data2 has valued." << endl;
     } else {
-        cout << "data2 has NO value" << endl;
+        cout << "data2 has NO value. Showing an alternative with value_or: "
+             << data2.value_or(-7) << endl;
     }
 
+    // structured bindings - page 88
+    int values[]{1, 2, 3};
+    auto [x, y, z]{values}; // NOTE: You MUST use `auto` with structured binds.
+    auto [a, b, c]{arr};
+    // `int` would cause compilation errors.
+    cout << std::format("x = {}, y = {} and z = {}\n", x, y, z);
+    cout << std::format("a = {}, b = {} and c = {}\n", a, b, c);
+
+    auto arr3{values};
+    cout << "arr3: " << arr3 << endl;
+    cout << "*arr3: " << *arr3 << endl;
+
+    std::pair myPair2{"mao", 54};
+    auto [name, age]{myPair2};
+    cout << std::format("name: {}. age: {}\n", name, age);
     return 0;
 }
