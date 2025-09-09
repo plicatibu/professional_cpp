@@ -5,17 +5,24 @@ CXXFLAGS = -fmodules -O2 -static -std=c++23 -Wall
 # Default target - shows usage
 .PHONY: help
 help:
-	@echo "Usage: make <source_name>"
-	@echo "Example: make hello (compiles hello.cpp to hello)"
+	@echo "Usage:"
+	@echo "  make <source_name>   # compiles <source_name>.cpp to ./build/<source_name>"
+	@echo "  make run NAME=prog   # runs ./build/prog"
+	@echo "  make clean           # remove binaries"
 
 # Pattern rule: compile any .cpp file to executable
 %: %.cpp
 	mkdir -p build
 	$(CXX) $(CXXFLAGS) $< -o build/$@
 
-# Run binary
+# Run binary (requires NAME=...)
+.PHONY: run
 run:
-	./build/%
+	@if [ -z "$(NAME)" ]; then \
+		echo "Error: missing NAME. Usage: make run NAME=program"; \
+		exit 1; \
+	fi
+	./build/$(NAME)
 
 # Clean up executables (optional)
 .PHONY: clean
@@ -27,3 +34,4 @@ clean:
 list:
 	@echo "Available C++ source files:"
 	@ls -1 *.cpp 2>/dev/null || echo "No .cpp files found"
+
