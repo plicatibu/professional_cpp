@@ -20,7 +20,7 @@ run:
 # Clean up executables (optional)
 .PHONY: clean
 clean:
-	rm -f $(shell find . -maxdepth 1 -type f -executable ! -name ".*" ! -name "Makefile")
+	rm -f $(shell find . -maxdepth 2 -type f -executable ! -name ".*" ! -name "Makefile")
 
 # List available source files (optional)
 .PHONY: list
