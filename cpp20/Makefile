@@ -1,6 +1,7 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -fmodules -O2 -static -std=c++23 -Wall
+#CXXFLAGS = -fmodules -g -static -std=c++23 -Wall -Wextra -Wpedantic -Weffc++ -fanalyzer -fsanitize=address 
+CXXFLAGS = -fmodules -g -std=c++23 -Wall -Wextra -Wpedantic -Weffc++ -fanalyzer -fsanitize=address -Wl,-rpath=/usr/local/gcc-15-git/lib64
 
 # Default target - shows usage
 .PHONY: help
