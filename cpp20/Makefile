@@ -1,7 +1,14 @@
 # Compiler and flags
 CXX = g++
-#CXXFLAGS = -fmodules -g -static -std=c++23 -Wall -Wextra -Wpedantic -Weffc++ -fanalyzer -fsanitize=address 
-CXXFLAGS = -fmodules -g -std=c++23 -Wall -Wextra -Wpedantic -Weffc++ -fanalyzer -fsanitize=address -Wl,-rpath=/usr/local/gcc-15-git/lib64
+CXXFLAGS = -fmodules -std=c++23 \
+			-Wall -Wextra -Wpedantic -Weffc++ \
+			-Wconversion -Wsign-conversion -Wold-style-cast \
+			-Woverloaded-virtual -Wnon-virtual-dtor \
+			-g \
+			-fanalyzer
+
+LDFLAGS = -fsanitize=address -fsanitize=undefined \
+          -Wl,-rpath=/usr/local/gcc-15-git/lib64
 
 # Default target - shows usage
 .PHONY: help
@@ -14,7 +21,7 @@ help:
 # Pattern rule: compile any .cpp file to executable
 %: %.cpp
 	mkdir -p build
-	$(CXX) $(CXXFLAGS) $< -o build/$@
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $< -o build/$@
 
 # Run binary (requires NAME=...)
 .PHONY: run
