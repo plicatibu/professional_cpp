@@ -1,0 +1,16 @@
+CompileFlags:
+  Add: 
+    - -std=c++23
+    - -Wall
+    - -Wextra 
+    - -Wpedantic
+    - -Weffc++
+    - --gcc-toolchain=/usr/local/gcc-15-git  # Point to your GCC installation
+    - -stdlib=libstdc++                      # Use GCC's standard library
+    - -I/usr/local/gcc-15-git/include/c++/15 # GCC 15's C++ headers
+  Remove:
+    - -fmodules         # LSP doesn't need this
+    - -fanalyzer        # GCC-specific, clangd won't understand
+    - -fsanitize=address # Not needed for static analysis
+    - -Wl,-rpath=/usr/local/gcc-15-git/lib64  # Runtime linking, not needed for LSP
+    - -g                # Debug info not needed for LSP
