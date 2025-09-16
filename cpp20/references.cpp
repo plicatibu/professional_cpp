@@ -7,6 +7,9 @@ using std::string;
 
 string getString() { return "MAO"; }
 
+void addOneByValue(int i) { i++; }
+
+void addOneByRef( int &i) { i++; }
 int main() {
     int x { 3 };
     int y { 7 };
@@ -71,6 +74,14 @@ int main() {
     string const &str = { getString() };
     cout << str << endl;
 
+    auto i { 7 };
+    cout << "original i: " << i << endl;
+    cout << "calling addOne by value..." << endl;
+    addOneByValue(i);
+    cout << "after call by value i: " << i << endl;
+    cout << "calling addOne by ref..." << endl;
+    addOneByRef(i);
+    cout << "after call by reference i: " << i << endl;
 
 
 
